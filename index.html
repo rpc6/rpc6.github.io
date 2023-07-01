@@ -7,14 +7,23 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
+      background-color: #f2f2f2;
     }
 
-    h1 {
-      color: #333;
+    .header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
     }
 
     .post {
-      margin-bottom: 30px;
+      background-color: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
     }
 
     .post h2 {
@@ -29,10 +38,32 @@
       color: #999;
       font-size: 14px;
     }
+
+    .form-container {
+      background-color: #fff;
+      padding: 20px;
+    }
+
+    .form-container input[type="text"],
+    .form-container textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .form-container button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>欢迎来到我的博客</h1>
+  <div class="header">
+    <h1>欢迎来到我的博客</h1>
+  </div>
 
   <div class="post">
     <h2>第一篇博文</h2>
@@ -52,16 +83,48 @@
     <p class="date">发布日期：2023-06-25</p>
   </div>
 
-  <div class="post">
-    <h2>第四篇博文</h2>
-    <p>这是我的第四篇博文的内容。</p>
-    <p class="date">发布日期：2023-06-20</p>
+  <div class="form-container">
+    <h2>发表博文</h2>
+    <form id="blogForm">
+      <input type="text" id="titleInput" placeholder="标题">
+      <textarea id="contentInput" placeholder="内容"></textarea>
+      <button type="submit">发表</button>
+    </form>
   </div>
 
-  <div class="post">
-    <h2>第五篇博文</h2>
-    <p>这是我的第五篇博文的内容。</p>
-    <p class="date">发布日期：2023-06-15</p>
-  </div>
+  <script>
+    document.getElementById("blogForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // 阻止表单提交
+
+      // 获取输入值
+      var title = document.getElementById("titleInput").value;
+      var content = document.getElementById("contentInput").value;
+
+      // 创建新的博文元素
+      var newPost = document.createElement("div");
+      newPost.className = "post";
+      newPost.innerHTML = "<h2>" + title + "</h2><p>" + content + "</p><p class='date'>发布日期：" + getCurrentDate() + "</p>";
+
+      // 将新博文插入到页面顶部
+      var postsContainer = document.getElementsByClassName("post")[0].parentNode;
+      postsContainer.insertBefore(newPost, postsContainer.firstChild);
+
+      // 清空表单输入
+      document.getElementById("titleInput").value = "";
+      document.getElementById("contentInput").value = "";
+    });
+
+    function getCurrentDate() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = now.getMonth() + 1;
+      var day = now.getDate();
+      return year + "-" + padZero(month) + "-" + padZero(day);
+    }
+
+    function padZero(number) {
+      return (number < 10 ? "0" : "") + number;
+    }
+  </script>
 </body>
 </html>
